@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to 18 March 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #days-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+        .day {
+            width: 120px;
+            margin: 10px;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            background-color: #d1ffd6;
+            font-size: 18px;
+        }
+        .day.passed {
+            background-color: #ffcccc;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown to 18 March 2025</h1>
+    <p id="countdown-message"></p>
+    <p id="summary"></p>
+    <div id="days-container"></div>
+
+    <script>
+        // Set start date and target date
+        const startDate = new Date("2024-10-28"); // Start date
+        const endDate = new Date("2025-03-18");  // End date
+        const today = new Date();
+
+        // Calculate total days between start and end dates
+        const totalDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+        // Calculate days done and days remaining
+        const daysDone = Math.max(0, Math.floor((today - startDate) / (1000 * 60 * 60 * 24)));
+        const daysRemaining = Math.max(0, totalDays - daysDone);
+
+        // Display the countdown message and summary
+        const countdownMessage = document.getElementById("countdown-message");
+        const summary = document.getElementById("summary");
+
+        if (today <= endDate) {
+            countdownMessage.textContent = `Countdown from ${startDate.toDateString()} to ${endDate.toDateString()}`;
+            summary.textContent = `Days done: ${daysDone} | Days remaining: ${daysRemaining} | Total days: ${totalDays}`;
+        } else {
+            countdownMessage.textContent = `The target date (${endDate.toDateString()}) has already passed!`;
+            summary.textContent = `Total days: ${totalDays} | All days are completed!`;
+        }
+
+        // Generate the day elements
+        const daysContainer = document.getElementById("days-container");
+
+        for (let i = 0; i < totalDays; i++) {
+            const dayElement = document.createElement("div");
+            const currentDate = new Date(startDate);
+            currentDate.setDate(startDate.getDate() + i);
+
+            dayElement.classList.add("day");
+            dayElement.textContent = currentDate.toDateString();
+
+            // Mark past days as "passed"
+            if (currentDate < today) {
+                dayElement.classList.add("passed");
+            }
+
+            daysContainer.appendChild(dayElement);
+        }
+    </script>
+</body>
+</html>
